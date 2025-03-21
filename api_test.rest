@@ -1,0 +1,85 @@
+
+
+GET http://localhost:5002/api/user
+Content-Type: application/json
+
+
+
+### create new User
+
+
+POST  http://localhost:5002/api/user/register
+Content-Type: application/json
+
+{
+    "username": "MPoyi",
+    "email": "jeancympoy001@gmail.com",
+    "password": "Jeancy0001"
+}
+
+### Login 
+POST  http://localhost:5002/api/user/login
+Content-Type: application/json
+
+{
+    "email": "jeancympoy001@gmail.com",
+    "password": "Jeancy0001"
+}
+
+
+
+#### Products  
+
+GET  http://localhost:5002/dhdd
+Content-Type: application/json
+
+#### Products  
+
+POST http://localhost:5002/api/product/create
+Content-Type: application/json
+
+{
+  "name": "MacBook Pro",
+  "description": "Apple laptop with M3 chip",
+  "image": "https://example.com/macbook.jpg",
+  "category": "electronics",
+  "price": 2200,
+  "location": "New York",
+  "brand": "Apple"
+}
+###get all products
+
+GET  http://localhost:5002/api/product/products
+Content-Type: application/json
+
+
+
+
+####get BY Id  
+
+GET http://localhost:5002/api/product/67dd83637b7ed69865416b9f
+Content-Type: application/json
+
+
+
+
+
+
+###update products
+PUT  http://localhost:5002/api/product/67dd83637b7ed69865416b9f
+Content-Type: application/json
+
+{
+  "name": "MacBook Pro5",
+  "description": "Apple laptop with M3 chip and all ",
+  "image": "https://example.com/macbook.jpg",
+  "category": "electronics",
+  "price": 2200,
+  "location": "New York",
+  "brand": "Apple"
+}
+
+### deledt products
+
+DELETE   http://localhost:5002/api/product/delete/67dd83637b7ed69865416b9f
+Content-Type: application/json

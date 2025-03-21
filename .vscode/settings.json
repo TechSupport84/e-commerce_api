@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#280097",
+        "titleBar.activeBackground": "#3700D3",
+        "titleBar.activeForeground": "#FEFDFF"
+    },
+    "rest-client.excludeHostsForProxy": [
+        
+    ]
+}
