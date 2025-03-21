@@ -3,20 +3,31 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-dotenv.config();
-import userRouter from "./routes/user.js";
-import productRouter from "./routes/product.js";
-import { connectDb } from "./config/db.js";
 import cors from "cors";
 import createError from "http-errors";
+import userRouter from "./routes/user.js";
+import productRouter from "./routes/product.js";
 import swaggerRouter from "./routes/swagger.js";
+import { connectDb } from "./config/db.js";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5002;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const corsOptions = {
+    origin: "*", 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: ["Content-Type", "Authorization"]
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 app.use("/api/user", userRouter);
@@ -30,6 +41,7 @@ app.use((req, res, next) => {
 
 
 app.use((err, req, res, next) => {
+    console.error("Error:", err.message);
     res.status(err.status || 500).json({
         success: false,
         message: err.message || "Internal Server Error",
@@ -37,12 +49,6 @@ app.use((err, req, res, next) => {
 });
 
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
- 
 const startServer = async () => {
     try {
         await connectDb();
