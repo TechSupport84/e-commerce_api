@@ -7,6 +7,7 @@ import cors from "cors";
 import createError from "http-errors";
 import userRouter from "./routes/user.js";
 import productRouter from "./routes/product.js";
+import swaggerUi from "swagger-ui-express";
 import swaggerRouter from "./routes/swagger.js";
 import { connectDb } from "./config/db.js";
 
@@ -18,22 +19,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-const corsOptions = {
-    origin: "*", 
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    allowedHeaders: ["Content-Type", "Authorization"]
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+const swaggerFilePath = path.resolve("swagger.json");
+const swaggerDocument = JSON.parse(fs.readFileSync(swaggerFilePath, "utf-8"));
 
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
-app.use("/", swaggerRouter);
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/", swaggerRouter)
 
 app.use((req, res, next) => {
     next(createError(404, "Not found"));

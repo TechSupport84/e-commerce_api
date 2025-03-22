@@ -1,27 +1,22 @@
 import express from "express";
-import swaggerJsDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+import swagger  from "./swagger.js"
 
-const router = express.Router();
+import userRouter from "./user.js"
+import productRouter from "./product.js"
 
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Product API",
-      description: "API documentation for the product management system",
-      version: "1.0.0",
-    },
-    servers: [
-      {
-        url: "http://localhost:5002",
-      },
-    ],
-  },
-  apis: ["./routes/*.js"], 
-};
+const routes = express.Router();
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+routes.use('/', swagger);
+routes.use('/user', userRouter);
+routes.use('/product', productRouter);
+routes.use(
+  '/',
+  (docData = (req, res) => {
+    let docData = {
+      documentationURL: 'http://localhost:5002/api/product/',
+    };
+    res.send(docData);
+  })
+);
 
-export default router;
+module.exports = routes;

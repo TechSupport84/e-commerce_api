@@ -6,15 +6,10 @@ import path from "path";
 const router = express.Router();
 
 const swaggerFilePath = path.resolve("swagger.json");
+const swaggerDocument = JSON.parse(fs.readFileSync(swaggerFilePath, "utf-8"));
 
-let swaggerDocument;
-try {
-    swaggerDocument = JSON.parse(fs.readFileSync(swaggerFilePath, "utf-8"));
-} catch (error) {
-    console.error("Error loading Swagger file:", error.message);
-    swaggerDocument = {};
-}
 
-router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+router.use("/api-docs", swaggerUi.serve);
+router.get("/api-docs", swaggerUi.setup(swaggerDocument));
 
 export default router;
