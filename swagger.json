@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My E-commerce APi",
-    "description": "My  E-commerce API",
+    "title": "My E-commerce API",
+    "description": "My E-commerce API",
     "version": "1.0.0"
   },
   "host": "localhost:5002/api",
@@ -18,7 +18,7 @@
     },
     "/product/products": {
       "get": {
-        "description": "API Key if needed: Ezl0961tEpx2UxTZ5v2uKFK91qdNAr5npRlMT1zLcE3Mg68XwZj3N8Dyp1R8IvFenrVwHRllOUxF0Og00l0m9NcaYMtH6Bpgdv7N",
+        "description": "Retrieve all products",
         "parameters": [
           {
             "name": "apiKey",
@@ -27,18 +27,14 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/product/create": {
       "post": {
-        "description": "API Key if needed: Ezl0961tEpx2UxTZ5v2uKFK91qdNAr5npRlMT1zLcE3Mg68XwZj3N8Dyp1R8IvFenrVwHRllOUxF0Og00l0m9NcaYMtH6Bpgdv7N",
+        "description": "Create a new product",
         "parameters": [
           {
             "name": "body",
@@ -47,168 +43,58 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": { "type": "string", "example": "John" },
-                "description": { "type": "string", "example": "john.doe@example.com"  },
-                "image": { "type": "string", "example": "https://example.com/macbook.jpg" },
-                "category": { "type": "string", "example": "ex : clothing"  },
-                "price":{"type":"string", "example":"12.99"},
-                "location":{ "type": "string", "example": "Texas  ..."  },
-                 "brand":{ "type": "string", "example": "ex :Apple"  }
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "image": { "type": "string" },
+                "category": { "type": "string" },
+                "price": { "type": "string" },
+                "location": { "type": "string" },
+                "brand": { "type": "string" }
               },
-              "required": ["username", "email", "password"]
+              "required": ["name", "description", "price"]
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successfully created the contact"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Successfully created the product" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
-
-
-
     "/product/{id}": {
       "get": {
-        "description": "Retrieve a contact by ID",
+        "description": "Get a product by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "apiKey",
-            "in": "header",
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-
-
-    "/product/update/{id}": {
+        "responses": { "200": { "description": "OK" }, "404": { "description": "Not Found" } }
+      },
       "put": {
-        "description": "API Key if needed: Ezl0961tEpx2UxTZ5v2uKFK91qdNAr5npRlMT1zLcE3Mg68XwZj3N8Dyp1R8IvFenrVwHRllOUxF0Og00l0m9NcaYMtH6Bpgdv7N",
+        "description": "Update a product by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "ID of the contact to update"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-               "name": { "type": "string", "example": "John" },
-                "description": { "type": "string", "example": "john.doe@example.com"  },
-                "image": { "type": "string", "example": "https://example.com/macbook.jpg" },
-                "category": { "type": "string", "example": "ex : clothing"  },
-                "price":{"type":"string", "example":"12.99"},
-                "location":{ "type": "string", "example": "Texas  ..."  },
-                 "brand":{ "type": "string", "example": "ex :Apple"  }
-              },
-              "required": ["firstName", "lastName", "email"]
-            }
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
         ],
-        "responses": {
-          "200": {
-            "description": "Successfully updated the contact"
-          },
-          "400": {
-            "description": "Invalid input or missing required fields"
-          },
-          "404": {
-            "description": "Contact not found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-
-    "/product/delete/{id}": {
+        "responses": { "200": { "description": "Updated Successfully" } }
+      },
       "delete": {
-        "description": "Delete a contact by ID",
+        "description": "Delete a product by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "apiKey",
-            "in": "header",
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
-        "responses": {
-          "200": {
-            "description": "Successfully deleted the contact"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": { "200": { "description": "Deleted Successfully" }, "404": { "description": "Not Found" } }
       }
     },
-
-
-
-
-    "/user/": {
+    "/auth/github": {
       "get": {
-        "description": "API Key if needed: Ezl0961tEpx2UxTZ5v2uKFK91qdNAr5npRlMT1zLcE3Mg68XwZj3N8Dyp1R8IvFenrVwHRllOUxF0Og00l0m9NcaYMtH6Bpgdv7N",
-        "parameters": [
-          {
-            "name": "apiKey",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "description": "Initiate GitHub OAuth login",
+        "responses": { "302": { "description": "Redirecting to GitHub for OAuth authentication" } }
       }
     },
-    "/user/register": {
+    "/auth/register": {
       "post": {
-        "description": "API Key if needed: Ezl0961tEpx2UxTZ5v2uKFK91qdNAr5npRlMT1zLcE3Mg68XwZj3N8Dyp1R8IvFenrVwHRllOUxF0Og00l0m9NcaYMtH6Bpgdv7N",
+        "description": "Register a new user",
         "parameters": [
           {
             "name": "body",
@@ -217,37 +103,20 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": { "type": "string", "example": "John" },
-                "email": { "type": "string", "example": "john.doe@example.com"  },
-                "password": { "type": "string", "example": "************" }
-             
-      
+                "username": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" }
               },
               "required": ["username", "email", "password"]
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Successfully created the contact"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": { "201": { "description": "User registered successfully" } }
       }
     },
-
-
-
-
-
-    "/user/login": {
+    "/auth/login": {
       "post": {
-        "description": "API Key if needed: Ezl0961tEpx2UxTZ5v2uKFK91qdNAr5npRlMT1zLcE3Mg68XwZj3N8Dyp1R8IvFenrVwHRllOUxF0Og00l0m9NcaYMtH6Bpgdv7N",
+        "description": "Login a user",
         "parameters": [
           {
             "name": "body",
@@ -256,30 +125,39 @@
             "schema": {
               "type": "object",
               "properties": {
-                "email": { "type": "string", "example": "john.doe@example.com"  },
-                "password": { "type": "string", "example": "************" }
-             
-      
+                "email": { "type": "string" },
+                "password": { "type": "string" }
               },
-              "required": ["username", "email", "password"]
+              "required": ["email", "password"]
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Successfully created the contact"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "responses": { "200": { "description": "User logged in successfully" } }
+      }
+    },
+    "/auth/user/{id}": {
+      "get": {
+        "description": "Get a user by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "User found" }, "404": { "description": "User not found" } }
+      },
+      "put": {
+        "description": "Update a user by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "name": "body", "in": "body", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": { "200": { "description": "User updated successfully" } }
+      },
+      "delete": {
+        "description": "Delete a user by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "User deleted successfully" }, "404": { "description": "User not found" } }
       }
     }
-
-    
-
   }
 }

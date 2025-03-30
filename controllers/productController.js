@@ -9,7 +9,7 @@ const addProduct = async (req, res, next) => {
       const products = await validateProductData.validateAsync(req.body);
   
       if (!products) {
-        return next(createError(400, "All fields required."));
+        return  next(createError(400, "All fields required."));
       }
   
       const imageUrl = req.file ? req.file.path : req.body.image;

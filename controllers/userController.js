@@ -17,16 +17,13 @@ const register = async (req, res, next) => {
         const newUser = new Client({ 
             username: createUser.username, 
             email: createUser.email, 
-            password: hashedPassword 
+            password: hashedPassword,
+            
         });
 
         await newUser.save();
 
-        res.status(201).json({ 
-            success: true, 
-            message: "User Created", 
-            user: newUser 
-        });
+        res.status(201).json({ success: true, message: "User Created", user: newUser });
 
     } catch (error) {
         next(createError(500, error.message || "Internal Server Error"));
@@ -67,12 +64,55 @@ const login = async (req, res, next) => {
 const getUsers = async (req, res, next) => {
     try {
         const users = await Client.find().select("-password");
-
         res.status(200).json({ success: true, users });
+    } catch (error) {
+        next(createError(500, error.message || "Internal Server Error"));
+    }
+};
+
+const getUserById = async (req, res, next) => {
+    try {
+        const user = await Client.findById(req.params.id).select("-password");
+        if (!user) {
+            return next(createError(404, "User not found"));
+        }
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        next(createError(500, error.message || "Internal Server Error"));
+    }
+};
+
+const updateUser = async (req, res, next) => {
+    try {
+        const { username, email, password } = req.body;
+        let updatedData = { username, email };
+
+        if (password) {
+            updatedData.password = bcrypt.hashSync(password, 10);
+        }
+
+        const user = await Client.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+        if (!user) {
+            return next(createError(404, "User not found"));
+        }
+
+        res.status(200).json({ success: true, message: "User updated", user });
 
     } catch (error) {
         next(createError(500, error.message || "Internal Server Error"));
     }
 };
 
-export { register, login, getUsers };
+const deleteUser = async (req, res, next) => {
+    try {
+        const user = await Client.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return next(createError(404, "User not found"));
+        }
+        res.status(200).json({ success: true, message: "User deleted" });
+    } catch (error) {
+        next(createError(500, error.message || "Internal Server Error"));
+    }
+};
+
+export { register, login, getUsers, getUserById, updateUser, deleteUser };
